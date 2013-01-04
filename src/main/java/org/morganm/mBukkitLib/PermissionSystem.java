@@ -35,9 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -50,7 +47,6 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-import com.sk89q.wepif.PermissionsResolver;
 import com.sk89q.wepif.PermissionsResolverManager;
 
 /** Permission abstraction class, use Vault, WEPIF, Perm2 or superperms, depending on what's available.
@@ -72,7 +68,6 @@ import com.sk89q.wepif.PermissionsResolverManager;
  * @author morganm
  *
  */
-@Singleton
 public class PermissionSystem {
 	public enum Type {
 		SUPERPERMS,
@@ -91,9 +86,8 @@ public class PermissionSystem {
 	private Type systemInUse;
 	
     private net.milkbowl.vault.permission.Permission vaultPermission = null;
-    private PermissionsResolver wepifPerms = null;
+    private PermissionsResolverManager wepifPerms = null;
     
-    @Inject
 	public PermissionSystem(Plugin plugin, Logger log) {
 		this.plugin = plugin;
 		this.log = log;
@@ -349,46 +343,12 @@ public class PermissionSystem {
     }
     
     private boolean setupWEPIFPermissions() {
-    	try {
-	    	Plugin worldEdit = plugin.getServer().getPluginManager().getPlugin("WorldEdit");
-	    	String version = null;
-	    	int versionNumber = 840;	// assume compliance unless we find otherwise
-	    	
-	    	try {
-		    	version = worldEdit.getDescription().getVersion();
-
-		    	// version "4.7" is equivalent to build #379
-		    	if( "4.7".equals(version) )
-		    		versionNumber = 379;
-		    	// version "5.0" is equivalent to build #670
-		    	else if( "5.0".equals(version) )
-		    		versionNumber = 670;
-		    	else if( version.startsWith("5.") )		// 5.x series
-		    		versionNumber = 840;
-		    	else {
-			    	int index = version.indexOf('-');
-			    	versionNumber = Integer.parseInt(version.substring(0, index));
-		    	}
-	    	}
-	    	catch(Exception e) {}	// catch any NumberFormatException or anything else
-	    	
-//	    	System.out.println("WorldEdit version: "+version+", number="+versionNumber);
-	    	if( versionNumber < 660 ) {
-	    		log.info("You are currently running version "+version+" of WorldEdit. WEPIF was changed in #660, please update to latest WorldEdit. (skipping WEPIF for permissions)");
-	    		return false;
-	    	}
-
-	    	if( worldEdit != null ) {
-	    		wepifPerms = PermissionsResolverManager.getInstance();
-//	    		wepifPerms.initialize(plugin);
-//		    	wepifPerms = new PermissionsResolverManager(this, "LoginLimiter", log);
-//		    	(new PermissionsResolverServerListener(wepifPerms, this)).register(this);
-	    	}
+    	Plugin worldEdit = plugin.getServer().getPluginManager().getPlugin("WorldEdit");
+    	if( worldEdit != null ) {
+    		PermissionsResolverManager.initialize(plugin);
+    		wepifPerms = PermissionsResolverManager.getInstance();
     	}
-    	catch(Exception e) {
-    		log.info("Unexpected error trying to setup WEPIF permissions hooks (this message can be ignored): "+e.getMessage());
-    	}
-    	
+
     	return wepifPerms != null;
     }
 }

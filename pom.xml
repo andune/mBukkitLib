@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.morganm.mBukkitLib</groupId>
   <artifactId>mBukkitLib</artifactId>
-  <version>0.3</version>
+  <version>0.3.1</version>
   <name>mBukkitLib</name>
   <description>mBukkitLib is a common library of classes for use in Bukkit plugins</description>
   <url>https://dev.bukkit.org/server-mods/mBukkitLib/</url>
@@ -80,7 +80,7 @@
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldedit</artifactId>
-      <version>5.3</version>
+      <version>5.4.5</version>
       <exclusions>
         <exclusion>
           <groupId>org.spout</groupId>
