@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.morganm.mBukkitLib</groupId>
   <artifactId>mBukkitLib</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.3</version>
   <name>mBukkitLib</name>
   <description>mBukkitLib is a common library of classes for use in Bukkit plugins</description>
   <url>https://dev.bukkit.org/server-mods/mBukkitLib/</url>
@@ -172,13 +172,16 @@
                 <includes>
                   <include>javax.inject:javax.inject</include>
                   <include>aopalliance:aopalliance</include>
+<!--
                   <include>com.sk89q:worldedit</include>
                   <include>net.milkbowl.vault:Vault</include>
                   <include>com.nijiko:permissions</include>
                   <include>ru.tehkode:PermissionsEx</include>
+-->
                 </includes>
               </artifactSet>
 
+<!--
               <filters>
                 <filter>
                   <artifact>com.sk89q:worldedit</artifact>
@@ -207,6 +210,7 @@
                   </includes>
                 </filter>
               </filters>
+-->
 
 <!--
               <relocations>
